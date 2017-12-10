@@ -15,9 +15,12 @@ router.get("/me", (req, res) => {
 })
 
 router.post("/login", (req, res) => {
-  if (req.body.name === "admin" && req.body.password === "admin") {
+  if (req.session.name != null) {
+    res.status(302)
+    res.send({ name: req.session.name })
+  } else if (req.body.name === "admin" && req.body.password === "admin") {
     req.session.name = req.body.name
-    res.sendStatus(200)
+    res.send({ name: req.session.name })
   } else {
     res.sendStatus(401)
   }
